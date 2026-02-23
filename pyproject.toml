@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "snooper_pkg"
+dynamic = ["version"]
+description = ""
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+authors = [{name = "Solveit", email = "nobody@fast.ai"}]
+keywords = ['nbdev']
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/sayanbanerjee32/snooper_pkg"
+Documentation = "https://sayanbanerjee32.github.io/snooper_pkg/"
+
+[project.entry-points.nbdev]
+snooper_pkg = "snooper_pkg._modidx:d"
+
+[tool.setuptools.dynamic]
+version = {attr = "snooper_pkg.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["snooper_pkg"]
+
+[tool.nbdev]

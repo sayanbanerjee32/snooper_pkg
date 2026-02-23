@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "snooper_pkg"
+  site-url: "https://sayanbanerjee32.github.io/snooper_pkg"
+  description: ""
+  repo-branch: main
+  repo-url: "https://github.com/sayanbanerjee32/snooper_pkg"
