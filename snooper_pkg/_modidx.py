@@ -5,4 +5,4 @@ d = { 'settings': { 'branch': 'main',
                 'doc_host': 'https://sayanbanerjee32.github.io',
                 'git_url': 'https://github.com/sayanbanerjee32/snooper_pkg',
                 'lib_path': 'snooper_pkg'},
-  'syms': {'snooper_pkg.core': {'snooper_pkg.core.foo': ('core.html#foo', 'snooper_pkg/core.py')}}}
+  'syms': {'snooper_pkg.config': {}, 'snooper_pkg.core': {'snooper_pkg.core.foo': ('core.html#foo', 'snooper_pkg/core.py')}}}
