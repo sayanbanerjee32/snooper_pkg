@@ -11,11 +11,5 @@ PROCESS_MONITORING_INTERVAL_SECONDS = 5
 # %% ../nbs/00_config.ipynb #f8d4d24d
 EXCLUDED_PROCESSES = {'sudo','python'}
 
-# %% ../nbs/00_config.ipynb #f8d4d24d
-EXCLUDED_PROCESSES = {'sudo','python'}
-
-# %% ../nbs/00_config.ipynb #cb6bf807
-DATABASE_PATH = "snooper.db"
-
 # %% ../nbs/00_config.ipynb #cb6bf807
 DATABASE_PATH = "snooper.db"
