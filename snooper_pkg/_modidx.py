@@ -6,7 +6,6 @@ d = { 'settings': { 'branch': 'main',
                 'git_url': 'https://github.com/sayanbanerjee32/snooper_pkg',
                 'lib_path': 'snooper_pkg'},
   'syms': { 'snooper_pkg.config': {},
-            'snooper_pkg.core': {'snooper_pkg.core.foo': ('core.html#foo', 'snooper_pkg/core.py')},
             'snooper_pkg.db': { 'snooper_pkg.db.Event': ('db.html#event', 'snooper_pkg/db.py'),
                                 'snooper_pkg.db.get_processes': ('db.html#get_processes', 'snooper_pkg/db.py'),
                                 'snooper_pkg.db.log_event': ('db.html#log_event', 'snooper_pkg/db.py')}}}

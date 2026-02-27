@@ -5,13 +5,9 @@
 # %% auto #0
 __all__ = ['Event', 'log_event', 'get_processes']
 
-# %% ../nbs/01_db.ipynb #07d9e4fa
-import sys
-sys.path.insert(0, '.')
-
 # %% ../nbs/01_db.ipynb #e1ae96a1
 from fastlite import *
-import config as cf
+import snooper_pkg.config as cf
 
 # %% ../nbs/01_db.ipynb #adb72d83
 db = database(cf.DATABASE_PATH)

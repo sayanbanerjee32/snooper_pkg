@@ -4,4 +4,5 @@ __pycache__/
 _docs/
 _proc/
 *.pyc
-dist/
+dist
+snooper_pkg.egg-info/
