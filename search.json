@@ -1,0 +1,62 @@
+[
+  {
+    "objectID": "config.html",
+    "href": "config.html",
+    "title": "config",
+    "section": "",
+    "text": "Process monitoring config\n\n\nExported source\nPROCESS_MONITORING_INTERVAL_SECONDS = 5\n\n\nPolling interval in seconds\n\n\nExported source\nEXCLUDED_PROCESSES = {'sudo','python'}\n\n\nSet of processes to be excluded from monitoring\n\n\nDatabase config\n\n\nExported source\nDATABASE_PATH = \"snooper.db\"\n\n\nFile path for the database",
+    "crumbs": [
+      "config"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "snooper_pkg",
+    "section": "",
+    "text": "This file will become your README and also the index of your documentation.",
+    "crumbs": [
+      "snooper_pkg"
+    ]
+  },
+  {
+    "objectID": "index.html#developer-guide",
+    "href": "index.html#developer-guide",
+    "title": "snooper_pkg",
+    "section": "Developer Guide",
+    "text": "Developer Guide\nIf you are new to using nbdev here are some useful pointers to get you started.\n\nInstall snooper_pkg in Development mode\n# make sure snooper_pkg package is installed in development mode\n$ pip install -e .\n\n# make changes under nbs/ directory\n# ...\n\n# compile to have changes apply to snooper_pkg\n$ nbdev_prepare",
+    "crumbs": [
+      "snooper_pkg"
+    ]
+  },
+  {
+    "objectID": "index.html#usage",
+    "href": "index.html#usage",
+    "title": "snooper_pkg",
+    "section": "Usage",
+    "text": "Usage\n\nInstallation\nInstall latest from the GitHub repository:\n$ pip install git+https://github.com/sayanbanerjee32/snooper_pkg.git\nor from conda\n$ conda install -c sayanbanerjee32 snooper_pkg\nor from pypi\n$ pip install snooper_pkg\n\n\nDocumentation\nDocumentation can be found hosted on this GitHub repository’s pages. Additionally you can find package manager specific guidelines on conda and pypi respectively.",
+    "crumbs": [
+      "snooper_pkg"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use",
+    "href": "index.html#how-to-use",
+    "title": "snooper_pkg",
+    "section": "How to use",
+    "text": "How to use\nFill me in please! Don’t forget code examples:\n\n1+1\n\n2",
+    "crumbs": [
+      "snooper_pkg"
+    ]
+  },
+  {
+    "objectID": "db.html",
+    "href": "db.html",
+    "title": "Database APIs",
+    "section": "",
+    "text": "The process monitor is detecting events with timestamps.\nThe next logical step is to persist these events rather than just printing them. That means building the storage module (db.py) with SQLite. 2 options in my mind 1. store as events - pid, app, start/ stop, timestamp (only inserts) 2. create new record at open - pid, app, start time, update stop time on stop based on pid and not sttopped (based on NULL stop time)\nOption 1 (event log) — Simpler to write (inserts only), but querying “how long was Chrome open?” requires matching start/stop pairs afterwards. Option 2 (session record) — Slightly more complex (insert + update), but gives you duration directly. The risk: if the app or machine crashes, you’ll have orphan rows with NULL stop times.\nOption 1 has less locking risk — it’s insert-only, so each write is a quick, independent transaction. Option 2 requires a SELECT to find the matching row, then an UPDATE, which holds the lock longer.\nWith Option 1 you can pair start/stop events in a SQL query when generating reports (e.g., using a self-join on PID). Want to start building the events table?\nProcess monitor output\nOpened processes: 2026-02-21 16:20:08-{(874, 'sleep')}\nClosed processes: 2026-02-21 16:20:23-{(870, 'top')}\nOpened processes: 2026-02-21 16:21:08-{(875, 'top')}\nClosed processes: 2026-02-21 16:21:23-{(875, 'top')}\nHOw can I import a module from ../&lt;folder name?&gt;\n\n🤖Reply🤖\n🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠\nThe quickest way is to add that folder to sys.path:\nimport sys\nsys.path.insert(0, '../folder_name')\nimport config as cf\nReplace folder_name with the actual folder. If config.py is directly in the parent directory, just use '..' instead.\nI would like to use the fastlite library for SQLlite related code. Documentation available at https://fastlite.answer.ai/\n\n\n🤖Reply🤖\n🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠\nLet me check out the fastlite docs so I can help you use it effectively.\n\n\nread_url(url=‘https://fastlite.answer.ai/’)\n\n{\n  \"id\": \"toolu_01VjsUoGPqmkidDPRwzKecNN\",\n  \"call\": {\n    \"function\": \"read_url\",\n    \"arguments\": {\n      \"url\": \"https://fastlite.answer.ai/\"\n    }\n  },\n  \"result\": \"&lt;TRUNCATED&gt;\\u2026e ](./index.html)\\\\n\\\\n  * [ __ ](https://github.com/AnswerDotAI/fastlite)\\\\n\\\\n\\\\n\\\\n__\\\\n\\\\n  1. [fastlite](./index.html)\\\\n\\\\n\\\\n\\\\n  * [ fastlite](./index.html)\\\\n\\\\n  * [ Source](./core.html)\\\\n\\\\n  * [ Test Insert Operations](./test_insert.html)\\\\n\\\\n  * [ Test Update Operations](./test_update.html)\\\\n\\\\n  * [ Test Upsert Operations](./test_upsert.html)\\\\n\\\\n\\\\n\\\\n\\\\n## On this page\\\\n\\\\n  * Install\\\\n  * Overview\\\\n  * Dataclass support\\\\n  * Core design\\\\n  * Manipulating data\\\\n    * .insert()\\\\n    * .update()\\\\n    * .delete()\\\\n    * Multi-field primary keys\\\\n  * Diagrams\\\\n    * Importing CSV/TSV/etc\\\\n    * Database.import_file\\\\n\\\\n\\\\n\\\\n  * [__Edit this page](https://github.dev/AnswerDotAI/fastlite/blob/main/nbs/index.ipynb)\\\\n  * [ __Report an issue](https://github.com/AnswerDotAI/fastlite/issues/new)\\\\n  * [ __View source](https://github.com/AnswerDotAI/fastlite/blob/main/nbs/index.ipynb)\\\\n\\\\n\\\\n\\\\n## Other Formats\\\\n\\\\n  * [ __CommonMark](index.html.md)\\\\n\\\\n\\\\n\\\\n# fastlite\\\\n\\\\nA bit of extra usabi\\u2026&lt;/TRUNCATED&gt;\"\n}\n\n🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠\nNice choice! fastlite makes SQLite much more pleasant to work with. To get started with your events table, you’d use something like:\ndb = database(\"snooper.db\")\nThen you can define your events table schema using a class. Have a go at defining an Event class with the fields we discussed (pid, app, event_type, timestamp) and create the table using db.create(Event).\nlet me start from DB creation again. I have deleted the file in back end\n\n\n🤖Reply🤖\n🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠\nFresh start! You’ve got the db object ready. Now try defining your Event dataclass and creating the table:\nfrom dataclasses import dataclass\n\n@dataclass\nclass Event:\n    pid: int\n    app: str\n    event_type: str\n    timestamp: str\n    id: int = None\nThen create the table with db.create(Event). Give it a go!\n\nsource\n\n\nEvent\n\ndef Event(\n    args:VAR_POSITIONAL, kwargs:VAR_KEYWORD\n):\n\nThe class container for process monitoring\nnow?\n\n🤖Reply🤖\n🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠\nTable’s created! Now try inserting a test event to make sure it works:\nevents = db.t.event\nevents.insert(Event(pid=874, app='sleep', event_type='start', timestamp='2026-02-21 16:20:08'))\nlets wrap this in a function\n\n\n🤖Reply🤖\n🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠\nSure! You’ll want a function that takes the event details and inserts into the table. Something like:\ndef log_event(pid, app, event_type, timestamp):\n    ...\nHave a go at filling in the body — you’ve already got the insert working above so it’s just wrapping it up.\n\nsource\n\n\n\nlog_event\n\ndef log_event(\n    pid:int, # process identifier\n    app:str, # application name\n    event_type:str, # start of stop\n    timestamp:str, # time of event\n):\n\nCreates the database if it does not exist and inserts a record\n\nlog_event(pid=874, app='sleep', event_type='stop', timestamp='2026-02-21 16:20:38')\n\nhow do I check for records in the table?\n\n🤖Reply🤖\n🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠\nTry:\nevents()\nThat returns all rows from the table. You can also use events(limit=5) to limit results.\nhow do I write a query to so that start and stop event for a combination of pid and app can be extracted as a single row with duration calculated?\n\n\n🤖Reply🤖\n🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠\nYou can do this with a self-join — join the events table to itself, matching start events with stop events on the same pid and app. SQLite has a julianday() function that’s useful for calculating time differences.\nThe general shape is:\nSELECT s.pid, s.app, s.timestamp AS start_time, e.timestamp AS stop_time\nFROM events s JOIN events e ON s.pid = e.pid AND s.app = e.app\nWHERE s.event_type = 'start' AND e.event_type = 'stop'\nYou can run raw SQL in fastlite with db.execute(sql).fetchall(). Try this query first, then we can add the duration calculation using julianday().\nhow to calculate the duration here?\n\n\n🤖Reply🤖\n🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠🧠\nThe duration came out as 0 because SQLite is subtracting two text strings. You need to convert them to numeric values first using julianday():\n(julianday(e.timestamp) - julianday(s.timestamp)) * 86400 AS duration_seconds\njulianday() returns days, so multiplying by 86400 (seconds in a day) gives you duration in seconds. Try replacing your duration line with that.\n\nsource\n\n\n\nget_processes\n\ndef get_processes(\n    \n):\n\nReturns application usage with start time, stop time and duration in seconds\n\nget_processes()",
+    "crumbs": [
+      "Database APIs"
+    ]
+  }
+]
