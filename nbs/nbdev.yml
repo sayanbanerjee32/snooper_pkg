@@ -7,3 +7,8 @@ website:
   description: ""
   repo-branch: main
   repo-url: "https://github.com/sayanbanerjee32/snooper_pkg"
+
+format-links:
+  - html
+  - format: commonmark
+    text: Markdown
