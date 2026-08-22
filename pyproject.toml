@@ -9,13 +9,21 @@ description = ""
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "Apache-2.0"}
-authors = [{name = "Solveit", email = "nobody@fast.ai"}]
-keywords = ['nbdev']
+authors = [{name = "Sayan Banerjee", email = "sayanbanerjee32@gmail.com"}]
+keywords = ['nbdev', 'snooper']
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
 ]
-dependencies = ['fastlite']
+dependencies = [
+    "fastcore",
+    "fastlite",
+    "pandas",
+    "psutil",
+    "Pillow",
+    "pystray; sys_platform == 'win32'",
+    "pywin32; sys_platform == 'win32'",
+]
 
 [project.urls]
 Repository = "https://github.com/sayanbanerjee32/snooper_pkg"
@@ -23,6 +31,11 @@ Documentation = "https://sayanbanerjee32.github.io/snooper_pkg/"
 
 [project.entry-points.nbdev]
 snooper_pkg = "snooper_pkg._modidx:d"
+
+[project.optional-dependencies]
+dev = [
+    "nbdev",
+]
 
 [tool.setuptools.dynamic]
 version = {attr = "snooper_pkg.__version__"}

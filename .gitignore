@@ -6,3 +6,5 @@ _proc/
 *.pyc
 dist
 snooper_pkg.egg-info/
+nbdev_checks.ipynb
+migrate_notebooks.*
