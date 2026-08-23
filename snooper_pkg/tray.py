@@ -9,6 +9,8 @@ __all__ = ['open_last_session_report', 'open_current_session_report', 'run_tray'
 
 # %% ../nbs/08_tray.ipynb #7c09ff25
 import threading
+import tkinter as tk
+from tkinter import simpledialog
 
 # %% ../nbs/08_tray.ipynb #1744d819
 import snooper_pkg.config as cf
@@ -38,8 +40,6 @@ def run_tray(
     """Start the tray integration and block in the Tkinter event loop until exit."""
     import pystray
     from PIL import Image
-    import tkinter as tk
-    from tkinter import simpledialog
 
     root = tk.Tk()
     root.protocol("WM_DELETE_WINDOW", root.destroy)

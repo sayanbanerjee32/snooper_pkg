@@ -7,6 +7,10 @@ Docs: https://sayanbanerjee32.github.io/snooper_pkg/report_window.html.md"""
 # %% auto #0
 __all__ = ['fmt_duration', 'show_apps', 'show_summary', 'show_titles', 'update_titles', 'show_report']
 
+# %% ../nbs/06_report_window.ipynb #310c54a7
+import tkinter as tk
+from tkinter import ttk
+
 # %% ../nbs/06_report_window.ipynb #72dc423a
 import snooper_pkg.config as cf
 
@@ -18,7 +22,6 @@ def fmt_duration(seconds):
 # %% ../nbs/06_report_window.ipynb #cb5d0b7c
 def show_apps(root, report_data):
     """Create and populate the foreground-application summary table."""
-    from tkinter import ttk
     tree = ttk.Treeview(root, columns=("time", "percent"))
 
     tree.heading("#0", text="App")
@@ -84,7 +87,6 @@ def update_titles(title_tree, report_data, app_tree):
 # %% ../nbs/06_report_window.ipynb #5abd3eb7
 def show_report(report_data, report_title = "Usage Report", is_show_titles = cf.SHOW_WINDOW_TITLES):
     """Open the report window and run its Tkinter event loop."""
-    import tkinter as tk
     root = tk.Tk()
     root.protocol("WM_DELETE_WINDOW", root.destroy)
     root.title(report_title)
