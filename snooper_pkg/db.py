@@ -51,6 +51,11 @@ class ForegroundEvent:
     is_idle: bool         # Whether the interval represents user idle time
     id: int | None = None  # Database-generated primary key
 
+# %% ../nbs/01_db.ipynb #3d9026f4
+def _db_timestamp(value: str | datetime) -> str:
+    "Convert a timestamp into the string format stored in SQLite."
+    return value.isoformat(sep=" ", timespec="seconds") if isinstance(value, datetime) else value
+
 # %% ../nbs/01_db.ipynb #fe74016d
 db = database(cf.DATABASE_PATH)
 
@@ -119,6 +124,7 @@ def start_session(
     start_time: str,  # ISO-formatted session start time
 ):
     "Create and return a new open monitoring session."
+    start_time = _db_timestamp(start_time)
     return sessions.insert(
         session_id=session_id,
         start_time=start_time,
@@ -132,6 +138,7 @@ def end_session(
     end_reason: str = "NA",   # Reason the session ended
 ):
     "Close a monitoring session and record why it ended."
+    end_time = _db_timestamp(end_time)
     return sessions.update(
         session_id=session_id,
         end_time=end_time,
@@ -158,6 +165,7 @@ def close_stale_open_sessions(
     end_time: str,  # Timestamp used to close stale sessions
 ) -> list[str]:
     "Close sessions left open before startup and return their identifiers."
+    end_time = _db_timestamp(end_time)
     open_sessions_dict_list = db.q("""
             SELECT 
                 session_id
