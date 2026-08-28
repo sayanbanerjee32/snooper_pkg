@@ -31,7 +31,7 @@ FG_APP_MONITORING_MIN_IDLE_SECONDS = 60
 STREAMING_APP_MIN_IDLE_SECONDS = {'youtube': 600, 'netflix': 600, 'twitch': 600}
 
 # %% ../nbs/00_config.ipynb #199d6147
-NUM_TOP_APP_IN_REPORT = 5
+NUM_TOP_APP_IN_REPORT = 10
 
 # %% ../nbs/00_config.ipynb #c58e4eb3
 NUM_TOP_WINDOW_IN_REPORT = 5

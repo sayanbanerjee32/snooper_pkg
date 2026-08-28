@@ -85,18 +85,28 @@ def update_titles(title_tree, report_data, app_tree):
         )
 
 # %% ../nbs/06_report_window.ipynb #5abd3eb7
-def show_report(report_data, report_title = "Usage Report", is_show_titles = cf.SHOW_WINDOW_TITLES):
-    """Open the report window and run its Tkinter event loop."""
-    root = tk.Tk()
-    root.protocol("WM_DELETE_WINDOW", root.destroy)
-    root.title(report_title)
-    show_summary(root, report_data)
-    app_tree = show_apps(root, report_data)
-    if is_show_titles: 
-        title_tree = show_titles(root)
+def show_report(
+    parent,
+    report_data,
+    report_title="Usage Report",
+    is_show_titles=cf.SHOW_WINDOW_TITLES,
+):
+    """Open a report as a child of the application's Tk root."""
+    window = tk.Toplevel(parent)
+    window.title(report_title)
+
+    show_summary(window, report_data)
+    app_tree = show_apps(window, report_data)
+
+    if is_show_titles:
+        title_tree = show_titles(window)
         rows = app_tree.get_children()
+
         if rows:
             app_tree.selection_set(rows[0])
             update_titles(title_tree, report_data, app_tree)
-        app_tree.bind("<<TreeviewSelect>>", lambda e: update_titles(title_tree, report_data, app_tree))
-    root.mainloop()
+
+        app_tree.bind(
+            "<<TreeviewSelect>>",
+            lambda event: update_titles(title_tree, report_data, app_tree),
+        )

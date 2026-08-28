@@ -17,8 +17,8 @@ def main():
     "Start monitoring, show the last session report, and run the tray application."
     controller = MonitorController()
     controller.start_monitoring()
-    open_last_session_report(controller)
-    run_tray(controller)
+    # open_last_session_report(controller)
+    run_tray(controller, show_last_on_start=True)
 
 # %% ../nbs/09_main.ipynb #16946e18
 if __name__ == "__main__":
