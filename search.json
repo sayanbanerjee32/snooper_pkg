@@ -1,0 +1,502 @@
+[
+  {
+    "objectID": "reporter.html",
+    "href": "reporter.html",
+    "title": "Session reports",
+    "section": "",
+    "text": "source\n\n\ndef build_session_report_data(\n    session, events\n):\nReturn session metadata, summary metrics, and event breakdowns as a report dictionary.",
+    "crumbs": [
+      "Session reports"
+    ]
+  },
+  {
+    "objectID": "reporter.html#report-construction",
+    "href": "reporter.html#report-construction",
+    "title": "Session reports",
+    "section": "",
+    "text": "source\n\n\ndef build_session_report_data(\n    session, events\n):\nReturn session metadata, summary metrics, and event breakdowns as a report dictionary.",
+    "crumbs": [
+      "Session reports"
+    ]
+  },
+  {
+    "objectID": "reporter.html#session-and-event-preparation",
+    "href": "reporter.html#session-and-event-preparation",
+    "title": "Session reports",
+    "section": "Session and event preparation",
+    "text": "Session and event preparation",
+    "crumbs": [
+      "Session reports"
+    ]
+  },
+  {
+    "objectID": "reporter.html#event-aggregation",
+    "href": "reporter.html#event-aggregation",
+    "title": "Session reports",
+    "section": "Event aggregation",
+    "text": "Event aggregation\n\n_clean_events derives app_name from window_title rather than using the existing event app field. Confirm that this is intentional.\nA title without \" - \" becomes the complete app_name, while its clean_title becomes \"Unknown\". Titles containing several separators retain only the final two components.\n_clean_events assumes every event has non-null, parseable start_time, end_time, and string window_title values. Confirm that the database layer guarantees these conditions.\n_session_data assumes both session timestamps are present and parseable. It cannot directly process an open session with end_time=None.\nSession duration is calculated from the session timestamps, while summary duration is the sum of event durations. These values can differ when events contain gaps or overlaps.\napp_switch_count is calculated after idle rows are removed. Consequently, App A → Idle → App A is treated as no application switch.\nThe current title breakdown returns title duration but not the requested percent within the application. It also does not return an explicit title count or single top-title field.\nA non-positive top_n_apps or top_n_titles value means “include all,” not “include none.” Confirm that this matches the intended configuration semantics.\nThe configured top-app and top-title limits are captured as default arguments when the module is imported. Runtime changes to those configuration attributes will not change the defaults until the module is reloaded.",
+    "crumbs": [
+      "Session reports"
+    ]
+  },
+  {
+    "objectID": "config.html",
+    "href": "config.html",
+    "title": "Configuration",
+    "section": "",
+    "text": "Exported source\nLOG_LEVEL = \"WARNING\"  # DEBUG, INFO, WARNING, ERROR\nLog level for the application",
+    "crumbs": [
+      "Configuration"
+    ]
+  },
+  {
+    "objectID": "config.html#process-monitoring-config",
+    "href": "config.html#process-monitoring-config",
+    "title": "Configuration",
+    "section": "Process monitoring config",
+    "text": "Process monitoring config\n\n\nExported source\nPROCESS_MONITORING_INTERVAL_SECONDS = 5\n\n\nHow often, in seconds, the process monitor checks for processes starting or stopping. A lower value detects changes sooner but uses slightly more CPU.\n\n\nExported source\nEXCLUDED_PROCESSES = {'sudo','python'}\n\n\nProcess names that should be ignored by process monitoring. This prevents the app from recording its own helper processes or other unimportant background processes.",
+    "crumbs": [
+      "Configuration"
+    ]
+  },
+  {
+    "objectID": "config.html#database-config",
+    "href": "config.html#database-config",
+    "title": "Configuration",
+    "section": "Database config",
+    "text": "Database config\n\n\nExported source\nDATABASE_PATH = \"snooper.db\"\n\n\nFilesystem path for the SQLite database that stores sessions, foreground events, and process events.\n\n\nExported source\nDATA_RETENTION_DAYS = 7\n\n\nNumber of days to retain recorded data. Startup housekeeping should delete records older than this limit.",
+    "crumbs": [
+      "Configuration"
+    ]
+  },
+  {
+    "objectID": "config.html#fore-ground-application-monitoring-config",
+    "href": "config.html#fore-ground-application-monitoring-config",
+    "title": "Configuration",
+    "section": "Fore-ground application monitoring config",
+    "text": "Fore-ground application monitoring config\n\n\nExported source\nFG_APP_MONITORING_INTERVAL_SECONDS = 2\n\n\nHow often, in seconds, the foreground tracker samples the active window/application. Lower values give more accurate switch timing but create more polling work.\n\n\nExported source\nFG_APP_MONITORING_MIN_IDLE_SECONDS = 60\n\n\nNumber of seconds without user input before normal foreground time is counted as idle rather than time spent in the active application.\n\n\nExported source\nSTREAMING_APP_MIN_IDLE_SECONDS = {'youtube': 600, 'netflix': 600, 'twitch': 600}\n\n\nPer-streaming-app idle thresholds. These allow an app such as YouTube, Netflix, or Twitch to remain counted as active longer before being treated as idle—for example while the user watches a video without interacting.",
+    "crumbs": [
+      "Configuration"
+    ]
+  },
+  {
+    "objectID": "config.html#dashboard-report-config",
+    "href": "config.html#dashboard-report-config",
+    "title": "Configuration",
+    "section": "Dashboard report config",
+    "text": "Dashboard report config\n\n\nExported source\nNUM_TOP_APP_IN_REPORT = 10\n\n\nMaximum number of applications shown in the main “top apps” section of a session report.\n\n\nExported source\nNUM_TOP_WINDOW_IN_REPORT = 5\n\n\nMaximum number of window titles shown in the per-application title breakdown of a report.\n\n\nExported source\nSHOW_WINDOW_TITLES = True\n\n\nWhether reports may display recorded window titles. Turning this off is useful for stronger privacy, while still retaining per-application foreground-time statistics.",
+    "crumbs": [
+      "Configuration"
+    ]
+  },
+  {
+    "objectID": "config.html#tray-icon-config",
+    "href": "config.html#tray-icon-config",
+    "title": "Configuration",
+    "section": "Tray Icon config",
+    "text": "Tray Icon config\n\n\nExported source\nDEFAULT_PAUSE_MINUTES = 30\n\n\nDefault length of a monitoring pause when the user chooses pause without providing a duration. After this period, monitoring should automatically resume in a new session.",
+    "crumbs": [
+      "Configuration"
+    ]
+  },
+  {
+    "objectID": "main.html#application-startup",
+    "href": "main.html#application-startup",
+    "title": "Application entry point",
+    "section": "Application startup",
+    "text": "Application startup\n\n\nsource\n\nmain\ndef main():\nStart monitoring, show the last session report, and run the tray application.\n\n\n\nsnooper_pkg.config is imported as cf but is not used anywhere in the current notebook.\nThe wildcard tray import hides which tray APIs this module depends on. The current code uses open_last_session_report and run_tray; changing the import would affect executable code and is therefore not included here.\nThe exported if __name__ == \"__main__\": cell may call main() when executed interactively because notebook kernels commonly set __name__ to \"__main__\". Confirm that launching the application during a notebook “Run All” is intended.\nImporting MonitorController transitively imports Windows-only modules such as win32gui. The notebook therefore cannot currently be executed in this non-Windows environment.\nExisting cell outputs show earlier import statements and failures that no longer exactly match the current source cells. They should eventually be cleared or regenerated during the real Windows test, but no output changes were made here.",
+    "crumbs": [
+      "Application entry point"
+    ]
+  },
+  {
+    "objectID": "monitoring_controller.html",
+    "href": "monitoring_controller.html",
+    "title": "Monitoring controller",
+    "section": "",
+    "text": "source\n\n\ndef seconds_until_midnight(\n    now:NoneType=None\n):\nReturn the number of seconds from now until the next midnight.",
+    "crumbs": [
+      "Monitoring controller"
+    ]
+  },
+  {
+    "objectID": "monitoring_controller.html#scheduling-helpers",
+    "href": "monitoring_controller.html#scheduling-helpers",
+    "title": "Monitoring controller",
+    "section": "",
+    "text": "source\n\n\ndef seconds_until_midnight(\n    now:NoneType=None\n):\nReturn the number of seconds from now until the next midnight.",
+    "crumbs": [
+      "Monitoring controller"
+    ]
+  },
+  {
+    "objectID": "monitoring_controller.html#controller-state",
+    "href": "monitoring_controller.html#controller-state",
+    "title": "Monitoring controller",
+    "section": "Controller state",
+    "text": "Controller state\n\n\nsource\n\nMonitorController\ndef MonitorController(\n    debug:bool=True\n):\nOwn monitoring session state, worker threads, timers, and UI callbacks.",
+    "crumbs": [
+      "Monitoring controller"
+    ]
+  },
+  {
+    "objectID": "monitoring_controller.html#session-lifecycle",
+    "href": "monitoring_controller.html#session-lifecycle",
+    "title": "Monitoring controller",
+    "section": "Session lifecycle",
+    "text": "Session lifecycle\n\n\nsource\n\nMonitorController.start_monitoring\ndef start_monitoring():\nStart a new session and its process and foreground monitoring threads.\n\n\n\n\nsource\n\nMonitorController.stop_monitoring\ndef stop_monitoring(\n    stop_reason:str='None'\n):\nStop active workers, close the session, and record its stop reason.\n\n\n\n\nsource\n\nMonitorController.is_running\ndef is_running():\nReturn whether a monitoring session is currently running.",
+    "crumbs": [
+      "Monitoring controller"
+    ]
+  },
+  {
+    "objectID": "monitoring_controller.html#startup-housekeeping",
+    "href": "monitoring_controller.html#startup-housekeeping",
+    "title": "Monitoring controller",
+    "section": "Startup housekeeping",
+    "text": "Startup housekeeping\n\n\nsource\n\nMonitorController.run_startup_housekeeping\ndef run_startup_housekeeping():\nClose stale sessions and delete data older than the retention cutoff.",
+    "crumbs": [
+      "Monitoring controller"
+    ]
+  },
+  {
+    "objectID": "monitoring_controller.html#report-data",
+    "href": "monitoring_controller.html#report-data",
+    "title": "Monitoring controller",
+    "section": "Report data",
+    "text": "Report data\n\n\nsource\n\nMonitorController.generate_current_session_stats\ndef generate_current_session_stats():\nBuild report data for the active session, or return {} when none exists.\n\n\n\n\nsource\n\nMonitorController.generate_last_report_data\ndef generate_last_report_data():\nBuild report data for the latest completed session, or return {}.",
+    "crumbs": [
+      "Monitoring controller"
+    ]
+  },
+  {
+    "objectID": "monitoring_controller.html#pause-and-resume",
+    "href": "monitoring_controller.html#pause-and-resume",
+    "title": "Monitoring controller",
+    "section": "Pause and resume",
+    "text": "Pause and resume\n\n\nsource\n\nMonitorController.is_paused\ndef is_paused():\nReturn whether the configured pause end time is still in the future.\n\n\n\n\nsource\n\nMonitorController.pause_for\ndef pause_for(\n    minutes:NoneType=None\n):\nStop active monitoring, schedule automatic resume, and return the pause end time.\n\n\n\n\nsource\n\nMonitorController.resume_now\ndef resume_now():\nCancel any pending resume timer and resume monitoring immediately.\n\n\n\nstop_monitoring() uses the literal string \"None\" as its default stop_reason. Confirm whether this should remain \"None\", become Python None, or use a defined reason such as \"unknown\".\nConstructing MonitorController immediately runs database housekeeping. Confirm that this constructor side effect is intentional.\nresume_now() calls _auto_resume() even when no pause is active. If the controller was manually stopped, this starts a new monitoring session and emits resume callbacks. Confirm that this is the intended distinction between “resume” and “start”.\nThe callback contracts are implicit: on_notify is called with one string, while on_state_change is called without arguments. They may also be invoked from timer threads. Confirm that the tray layer safely transfers any Tkinter work to the Tk main thread.\nstart_monitoring() does not reset session_stop, so while a later session is running that attribute may still contain the previous session’s stop time. Confirm whether consumers rely on it being None during an active session.",
+    "crumbs": [
+      "Monitoring controller"
+    ]
+  },
+  {
+    "objectID": "report_window.html",
+    "href": "report_window.html",
+    "title": "Report window",
+    "section": "",
+    "text": "source\n\n\ndef fmt_duration(\n    seconds\n):\nFormat a duration in seconds as whole minutes and seconds.",
+    "crumbs": [
+      "Report window"
+    ]
+  },
+  {
+    "objectID": "report_window.html#duration-formatting",
+    "href": "report_window.html#duration-formatting",
+    "title": "Report window",
+    "section": "",
+    "text": "source\n\n\ndef fmt_duration(\n    seconds\n):\nFormat a duration in seconds as whole minutes and seconds.",
+    "crumbs": [
+      "Report window"
+    ]
+  },
+  {
+    "objectID": "report_window.html#application-summary-table",
+    "href": "report_window.html#application-summary-table",
+    "title": "Report window",
+    "section": "Application summary table",
+    "text": "Application summary table\n\n\nsource\n\nshow_apps\ndef show_apps(\n    root, report_data\n):\nCreate and populate the foreground-application summary table.",
+    "crumbs": [
+      "Report window"
+    ]
+  },
+  {
+    "objectID": "report_window.html#session-summary",
+    "href": "report_window.html#session-summary",
+    "title": "Report window",
+    "section": "Session summary",
+    "text": "Session summary\n\n\nsource\n\nshow_summary\ndef show_summary(\n    root, report_data\n):\nAdd the session summary fields to the report window.",
+    "crumbs": [
+      "Report window"
+    ]
+  },
+  {
+    "objectID": "report_window.html#selected-app-title-details",
+    "href": "report_window.html#selected-app-title-details",
+    "title": "Report window",
+    "section": "Selected-app title details",
+    "text": "Selected-app title details\n\n\nsource\n\nupdate_titles\ndef update_titles(\n    title_tree, report_data, app_tree\n):\nReplace title-table rows with title durations for the selected app.\n\n\n\n\nsource\n\nshow_titles\ndef show_titles(\n    root\n):\nCreate the table used to show titles for the selected application.",
+    "crumbs": [
+      "Report window"
+    ]
+  },
+  {
+    "objectID": "report_window.html#report-window-lifecycle",
+    "href": "report_window.html#report-window-lifecycle",
+    "title": "Report window",
+    "section": "Report window lifecycle",
+    "text": "Report window lifecycle\n\n\nsource\n\nshow_report\ndef show_report(\n    parent, report_data, report_title:str='Usage Report', is_show_titles:bool=True\n):\nOpen a report as a child of the application’s Tk root.\n\n\n\nReport-data shape: this module treats report_data[“events”] as a list of app-summary dictionaries. The project context describes a preferred future structure where “events” is a dictionary containing “top_apps”, “titles_by_app”, and “timeline”. Confirm the reporter’s current return shape before documenting that structure more specifically.\nTitle-data availability: update_titles assumes every app event has a “top_titles” key, including any idle event. Confirm whether idle rows include that key or whether they should be excluded from title-detail display.\nConfiguration default timing: is_show_titles = cf.SHOW_WINDOW_TITLES is evaluated when the function is defined, rather than when it is called. That is valid for a static configuration setting, but it will not reflect changes to cf.SHOW_WINDOW_TITLES made later in the same process.",
+    "crumbs": [
+      "Report window"
+    ]
+  },
+  {
+    "objectID": "idle_detector.html",
+    "href": "idle_detector.html",
+    "title": "Idle detection",
+    "section": "",
+    "text": "source\n\n\ndef LASTINPUTINFO(\n    *args, **kwargs\n):\nctypes representation of the Windows LASTINPUTINFO structure.\n\n\n\n\nExported source\nclass LASTINPUTINFO(ctypes.Structure):\n    \"ctypes representation of the Windows `LASTINPUTINFO` structure.\"\n\n    _fields_ = [\n        (\"cbSize\", wintypes.UINT),   # Size of this structure in bytes\n        (\"dwTime\", wintypes.DWORD),  # Tick count when the last input occurred\n    ]",
+    "crumbs": [
+      "Idle detection"
+    ]
+  },
+  {
+    "objectID": "idle_detector.html#windows-api-binding",
+    "href": "idle_detector.html#windows-api-binding",
+    "title": "Idle detection",
+    "section": "",
+    "text": "source\n\n\ndef LASTINPUTINFO(\n    *args, **kwargs\n):\nctypes representation of the Windows LASTINPUTINFO structure.\n\n\n\n\nExported source\nclass LASTINPUTINFO(ctypes.Structure):\n    \"ctypes representation of the Windows `LASTINPUTINFO` structure.\"\n\n    _fields_ = [\n        (\"cbSize\", wintypes.UINT),   # Size of this structure in bytes\n        (\"dwTime\", wintypes.DWORD),  # Tick count when the last input occurred\n    ]",
+    "crumbs": [
+      "Idle detection"
+    ]
+  },
+  {
+    "objectID": "idle_detector.html#idle-time-queries",
+    "href": "idle_detector.html#idle-time-queries",
+    "title": "Idle detection",
+    "section": "Idle-time queries",
+    "text": "Idle-time queries\n\n\nsource\n\nget_last_input_tick\ndef get_last_input_tick():\nCall GetLastInputInfo and return its last-input tick count in milliseconds.\n\n\n\n\nsource\n\nget_idle_seconds\ndef get_idle_seconds():\nReturn the elapsed seconds between system uptime and the last input tick.\n\n\n\nGetLastInputInfo returns a success flag, but the value assigned to ok is not checked. If the API call fails, get_last_input_tick() may return an unchanged or initial info.dwTime value.\nGetTickCount64() returns a 64-bit tick count, while LASTINPUTINFO.dwTime is a 32-bit DWORD. The last-input count wraps after approximately 49.7 days of uptime, so the direct subtraction may eventually produce an incorrect idle duration.\nThe module-level info structure is mutated on every API call. Confirm whether concurrent calls are possible and whether the shared buffer needs synchronization or per-call allocation.",
+    "crumbs": [
+      "Idle detection"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "snooper_pkg",
+    "section": "",
+    "text": "snooper_pkg records a simple, useful signal: which application and window is in the foreground, and for how long. It is intended to make productive-work sessions easier to review together, without capturing the contents of that work.\nTime away from the keyboard is treated separately from active foreground use. For example, if a browser remains open while someone is away, that interval can be reported as idle time rather than browser activity.",
+    "crumbs": [
+      "snooper_pkg"
+    ]
+  },
+  {
+    "objectID": "index.html#privacy-boundaries",
+    "href": "index.html#privacy-boundaries",
+    "title": "snooper_pkg",
+    "section": "Privacy boundaries",
+    "text": "Privacy boundaries\nThis application is designed for transparent, consensual use. It is not intended to record:\n\nkeystrokes\nscreenshots\nmessages\npasswords\ncomplete webpage contents\ndetailed personal content\n\nWindow titles can themselves contain sensitive information. Title display is configurable through SHOW_WINDOW_TITLES; disable it when titles should not appear in reports.",
+    "crumbs": [
+      "snooper_pkg"
+    ]
+  },
+  {
+    "objectID": "index.html#current-mvp-features",
+    "href": "index.html#current-mvp-features",
+    "title": "snooper_pkg",
+    "section": "Current MVP features",
+    "text": "Current MVP features\nThe current notebooks implement:\n\nautomatic monitoring startup\nmonitoring sessions stored in SQLite\nforeground application and window interval tracking\nWindows idle detection\nprocess start and stop events\ncleanup of old session data\npause and automatic resume\nsystem-tray controls\nsession report generation\na table-style Tkinter report window\nclean application exit",
+    "crumbs": [
+      "snooper_pkg"
+    ]
+  },
+  {
+    "objectID": "index.html#requirements",
+    "href": "index.html#requirements",
+    "title": "snooper_pkg",
+    "section": "Requirements",
+    "text": "Requirements\nThe application currently targets Windows. It requires Python 3.10 or later.\npyproject.toml currently declares fastlite. The implementation notebooks also import Windows and UI/runtime packages including pywin32, psutil, pystray, Pillow, and Tkinter. Before distributing the package, these runtime dependencies should be added to the project metadata and verified on a real Windows installation.\nNative Linux and macOS support are not currently claimed.",
+    "crumbs": [
+      "snooper_pkg"
+    ]
+  },
+  {
+    "objectID": "index.html#development-installation",
+    "href": "index.html#development-installation",
+    "title": "snooper_pkg",
+    "section": "Development installation",
+    "text": "Development installation\nFrom the project root, install the package in editable mode:\npython -m pip install -e .\nExport notebook changes into the package with:\nnbdev-export\nRun notebook tests with:\nnbdev-test\nUse the combined preparation command before committing:\nnbdev-prepare",
+    "crumbs": [
+      "snooper_pkg"
+    ]
+  },
+  {
+    "objectID": "index.html#running-the-mvp",
+    "href": "index.html#running-the-mvp",
+    "title": "snooper_pkg",
+    "section": "Running the MVP",
+    "text": "Running the MVP\nThe application startup flow creates a MonitorController, starts monitoring, opens the most recent completed-session report, and enters the system-tray loop. Run it only in a Windows environment after the notebook modules have been exported and the required runtime packages are installed.\nThe immediate project priority is a real Windows MVP test: confirm tray startup, foreground intervals, idle handling, reporting, pause/resume, and clean exit before expanding scope.",
+    "crumbs": [
+      "snooper_pkg"
+    ]
+  },
+  {
+    "objectID": "tray.html#dispatcher",
+    "href": "tray.html#dispatcher",
+    "title": "System tray",
+    "section": "Dispatcher",
+    "text": "Dispatcher\n\n\nsource\n\nUiDispatcher\ndef UiDispatcher(\n    root\n):\nInitialize self. See help(type(self)) for accurate signature.\n\n\nDispatches callbacks from background threads to Tkinter’s main thread, ensuring UI updates are executed safely through the root event loop.",
+    "crumbs": [
+      "System tray"
+    ]
+  },
+  {
+    "objectID": "tray.html#report-actions",
+    "href": "tray.html#report-actions",
+    "title": "System tray",
+    "section": "Report actions",
+    "text": "Report actions\n\n\nsource\n\nopen_current_session_report\ndef open_current_session_report(\n    controller, # Controller used to generate current-session report data\n    root, submit_ui\n):\nShow the current-session report when report data is available.\n\n\n\n\nsource\n\nopen_last_session_report\ndef open_last_session_report(\n    controller, # Controller used to generate last-session report data\n    root, submit_ui\n):\nShow the last-session report when report data is available.",
+    "crumbs": [
+      "System tray"
+    ]
+  },
+  {
+    "objectID": "tray.html#tray-menu-and-event-loop",
+    "href": "tray.html#tray-menu-and-event-loop",
+    "title": "System tray",
+    "section": "Tray menu and event loop",
+    "text": "Tray menu and event loop\n\n\nsource\n\nrun_tray\ndef run_tray(\n    controller, # Controller that owns monitoring and pause/resume state\n    show_last_on_start:bool=False, # Whether to show the last session report on app start up\n):\nStart the tray integration and block in the Tkinter event loop until exit.\n\n\n\nroot = tk.Tk() runs at module-import time. This creates a GUI object as an import side effect and will also fail in headless environments. Confirm that import-time Tk initialization is intentional.\nThe report helpers call show_report from new daemon threads. This appears inconsistent with the project rule that Tkinter UI operations should run on the Tk main thread, preferably through root.after(...).\nAfter pausing, pause_for calls open_current_session_report(controller). Because pausing ends the current session, confirm whether this should instead display the report for the just-ended session.\nCancelling the custom pause dialog performs no pause. It does not use DEFAULT_PAUSE_MINUTES; confirm whether this is the intended current behaviour.\nroot is exported as part of the module’s public API because its cell uses #| export. Confirm whether it should remain public or eventually become an internal implementation detail.\nThe public functions accept an untyped controller. The comments document how it is used, but the implementation does not identify a concrete controller type, so no type annotation has been invented.\nThe current notebook output shows that the failed pystray import prevented tk from being imported, which caused the later root = tk.Tk() cell to fail with NameError. This is a cascading notebook-execution failure rather than an independent missing import.",
+    "crumbs": [
+      "System tray"
+    ]
+  },
+  {
+    "objectID": "db.html",
+    "href": "db.html",
+    "title": "Database",
+    "section": "",
+    "text": "source\n\n\ndef ProcessEvent(\n    *args, **kwargs\n):\nA recorded process start or stop event.\n\n\n\n\nExported source\nclass ProcessEvent:\n    \"A recorded process start or stop event.\"\n\n    session_id: str  # Monitoring session containing the event\n    pid: int         # Operating-system process identifier\n    app: str         # Process or application name\n    event_type: str  # Event type: `start` or `stop`\n    timestamp: str   # ISO-formatted event timestamp\n    id: int | None = None  # Database-generated primary key\n\n\n\n\nsource\n\n\ndef Session(\n    *args, **kwargs\n):\nA single continuous monitoring session.\n\n\n\n\nExported source\nclass Session:\n    \"A single continuous monitoring session.\"\n\n    session_id: str       # Unique session identifier\n    start_time: str       # ISO-formatted session start time\n    end_time: str | None  # ISO-formatted end time; `None` while open\n    status: str           # Session state: `open` or `closed`\n    end_reason: str | None  # Reason the session ended\n\n\n\n\nsource\n\n\ndef ForegroundEvent(\n    *args, **kwargs\n):\nAn interval during which an application or idle state was in the foreground.\n\n\n\n\nExported source\nclass ForegroundEvent:\n    \"An interval during which an application or idle state was in the foreground.\"\n\n    session_id: str       # Monitoring session containing the interval\n    app: str              # Foreground application name\n    pid: int              # Foreground process identifier\n    window_title: str     # Foreground window title\n    start_time: str       # ISO-formatted interval start time\n    end_time: str         # ISO-formatted interval end time\n    hwnd: int             # Windows window handle\n    is_idle: bool         # Whether the interval represents user idle time\n    id: int | None = None  # Database-generated primary key",
+    "crumbs": [
+      "Database"
+    ]
+  },
+  {
+    "objectID": "db.html#schema-models",
+    "href": "db.html#schema-models",
+    "title": "Database",
+    "section": "",
+    "text": "source\n\n\ndef ProcessEvent(\n    *args, **kwargs\n):\nA recorded process start or stop event.\n\n\n\n\nExported source\nclass ProcessEvent:\n    \"A recorded process start or stop event.\"\n\n    session_id: str  # Monitoring session containing the event\n    pid: int         # Operating-system process identifier\n    app: str         # Process or application name\n    event_type: str  # Event type: `start` or `stop`\n    timestamp: str   # ISO-formatted event timestamp\n    id: int | None = None  # Database-generated primary key\n\n\n\n\nsource\n\n\ndef Session(\n    *args, **kwargs\n):\nA single continuous monitoring session.\n\n\n\n\nExported source\nclass Session:\n    \"A single continuous monitoring session.\"\n\n    session_id: str       # Unique session identifier\n    start_time: str       # ISO-formatted session start time\n    end_time: str | None  # ISO-formatted end time; `None` while open\n    status: str           # Session state: `open` or `closed`\n    end_reason: str | None  # Reason the session ended\n\n\n\n\nsource\n\n\ndef ForegroundEvent(\n    *args, **kwargs\n):\nAn interval during which an application or idle state was in the foreground.\n\n\n\n\nExported source\nclass ForegroundEvent:\n    \"An interval during which an application or idle state was in the foreground.\"\n\n    session_id: str       # Monitoring session containing the interval\n    app: str              # Foreground application name\n    pid: int              # Foreground process identifier\n    window_title: str     # Foreground window title\n    start_time: str       # ISO-formatted interval start time\n    end_time: str         # ISO-formatted interval end time\n    hwnd: int             # Windows window handle\n    is_idle: bool         # Whether the interval represents user idle time\n    id: int | None = None  # Database-generated primary key",
+    "crumbs": [
+      "Database"
+    ]
+  },
+  {
+    "objectID": "db.html#database-connection",
+    "href": "db.html#database-connection",
+    "title": "Database",
+    "section": "Database connection",
+    "text": "Database connection",
+    "crumbs": [
+      "Database"
+    ]
+  },
+  {
+    "objectID": "db.html#process-events",
+    "href": "db.html#process-events",
+    "title": "Database",
+    "section": "Process events",
+    "text": "Process events\n\n\nsource\n\nlog_process_event\ndef log_process_event(\n    session_id:str, # Session receiving the event\n    pid:int, # Operating-system process identifier\n    app:str, # Process or application name\n    event_type:str, # Event type: `start` or `stop`\n    timestamp:str, # ISO-formatted event timestamp\n):\nRecord a process start or stop event.\n\n\n\n\nsource\n\nget_processes\ndef get_processes(\n    session_id:str, # Session whose completed process intervals are requested\n)-&gt;list:\nReturn paired process start/stop intervals for a session.",
+    "crumbs": [
+      "Database"
+    ]
+  },
+  {
+    "objectID": "db.html#monitoring-sessions",
+    "href": "db.html#monitoring-sessions",
+    "title": "Database",
+    "section": "Monitoring sessions",
+    "text": "Monitoring sessions\n\n\nsource\n\nstart_session\ndef start_session(\n    session_id:str, # Unique identifier for the new session\n    start_time:str, # ISO-formatted session start time\n):\nCreate and return a new open monitoring session.\n\n\n\n\nsource\n\nend_session\ndef end_session(\n    session_id:str, # Session to close\n    end_time:str, # ISO-formatted session end time\n    end_reason:str='NA', # Reason the session ended\n):\nClose a monitoring session and record why it ended.\n\n\n\n\nsource\n\nget_last_completed_session\ndef get_last_completed_session()-&gt;dict:\nReturn the most recently completed session, or an empty dictionary.\n\n\n\n\nsource\n\nclose_stale_open_sessions\ndef close_stale_open_sessions(\n    end_time:str, # Timestamp used to close stale sessions\n)-&gt;list:\nClose sessions left open before startup and return their identifiers.\n\n\n\n\nsource\n\nget_session_by_session_id\ndef get_session_by_session_id(\n    session_id:str, # Identifier of the requested session\n)-&gt;dict:\nReturn a session by ID, using the current time for an open session’s end.",
+    "crumbs": [
+      "Database"
+    ]
+  },
+  {
+    "objectID": "db.html#foreground-events",
+    "href": "db.html#foreground-events",
+    "title": "Database",
+    "section": "Foreground events",
+    "text": "Foreground events\n\n\nsource\n\nlog_fg_app_events\ndef log_fg_app_events(\n    session_id:str, # Session receiving the interval\n    app:str, # Foreground application name\n    pid:int, # Foreground process identifier\n    window_title:str, # Foreground window title\n    start_time:str, # ISO-formatted interval start time\n    end_time:str, # ISO-formatted interval end time\n    hwnd:int, # Windows window handle\n    is_idle:bool, # Whether this was an idle interval\n):\nRecord a completed foreground-window or idle interval.\n\n\n\n\nsource\n\nget_foreground_events\ndef get_foreground_events(\n    session_id:str, # Session whose foreground intervals are requested\n)-&gt;list:\nReturn a session’s foreground intervals in chronological order.",
+    "crumbs": [
+      "Database"
+    ]
+  },
+  {
+    "objectID": "db.html#data-retention",
+    "href": "db.html#data-retention",
+    "title": "Database",
+    "section": "Data retention",
+    "text": "Data retention\n\n\nsource\n\ndelete_old_data\ndef delete_old_data(\n    now_ts:str | datetime.datetime | None=None, # Retention reference time; defaults to now\n)-&gt;str:\nDelete data belonging to closed sessions older than the retention period.",
+    "crumbs": [
+      "Database"
+    ]
+  },
+  {
+    "objectID": "process_monitor.html",
+    "href": "process_monitor.html",
+    "title": "Process monitoring",
+    "section": "",
+    "text": "source\n\n\ndef get_current_processes(\n    excluded_process_set\n):\nReturn running (pid, process_name) pairs excluding configured processes.",
+    "crumbs": [
+      "Process monitoring"
+    ]
+  },
+  {
+    "objectID": "process_monitor.html#process-snapshots",
+    "href": "process_monitor.html#process-snapshots",
+    "title": "Process monitoring",
+    "section": "",
+    "text": "source\n\n\ndef get_current_processes(\n    excluded_process_set\n):\nReturn running (pid, process_name) pairs excluding configured processes.",
+    "crumbs": [
+      "Process monitoring"
+    ]
+  },
+  {
+    "objectID": "process_monitor.html#process-event-monitoring",
+    "href": "process_monitor.html#process-event-monitoring",
+    "title": "Process monitoring",
+    "section": "Process event monitoring",
+    "text": "Process event monitoring\n\n\nsource\n\nstart_process_monitoring\ndef start_process_monitoring(\n    session_id, stop_event, excluded_processes, time_interval:int=5\n):\nPoll processes until stopped and log process start and stop events.\n\n\n\nget_current_processes assumes the values returned by proc.info retain the requested ['pid', 'name'] order. Confirm this is an intentional psutil usage assumption.\nThe module logs process events and prints changes, but does not document or handle process-access exceptions such as permissions errors. Confirm whether those cases are handled elsewhere or should be addressed after the nbdev migration.",
+    "crumbs": [
+      "Process monitoring"
+    ]
+  },
+  {
+    "objectID": "foreground_tracker.html",
+    "href": "foreground_tracker.html",
+    "title": "Foreground Tracker",
+    "section": "",
+    "text": "source\n\n\ndef get_foreground_window_info()-&gt;tuple:\nReturn the foreground window title, handle, process ID, and process name.",
+    "crumbs": [
+      "Foreground Tracker"
+    ]
+  },
+  {
+    "objectID": "foreground_tracker.html#foreground-window-inspection",
+    "href": "foreground_tracker.html#foreground-window-inspection",
+    "title": "Foreground Tracker",
+    "section": "",
+    "text": "source\n\n\ndef get_foreground_window_info()-&gt;tuple:\nReturn the foreground window title, handle, process ID, and process name.",
+    "crumbs": [
+      "Foreground Tracker"
+    ]
+  },
+  {
+    "objectID": "foreground_tracker.html#streaming-specific-idle-thresholds",
+    "href": "foreground_tracker.html#streaming-specific-idle-thresholds",
+    "title": "Foreground Tracker",
+    "section": "Streaming-specific idle thresholds",
+    "text": "Streaming-specific idle thresholds\n\n\nsource\n\nis_streaming_app\ndef is_streaming_app(\n    title:str, # Foreground window title to inspect\n    streaming_app_min_idle_time:dict, # Title substrings mapped to idle thresholds in seconds\n)-&gt;int | float | None:\nReturn the idle threshold for the first configured title match, or None.",
+    "crumbs": [
+      "Foreground Tracker"
+    ]
+  },
+  {
+    "objectID": "foreground_tracker.html#foreground-interval-monitoring",
+    "href": "foreground_tracker.html#foreground-interval-monitoring",
+    "title": "Foreground Tracker",
+    "section": "Foreground interval monitoring",
+    "text": "Foreground interval monitoring\n\n\nsource\n\nstart_foreground_app_monitoring\ndef start_foreground_app_monitoring(\n    session_id:str, # Monitoring session receiving foreground intervals\n    stop_event:object, # Stop signal providing an `is_set()` method\n    time_interval:int | float=2, # Seconds between foreground samples\n    min_idle_time_gap:int | float=60, # General idle threshold in seconds\n    streaming_app_min_idle_time:dict={'youtube': 600, 'netflix': 600, 'twitch': 600}, # Title-specific idle thresholds\n)-&gt;None:\nSample foreground state until stopped and record each completed interval.\n\n\n\nstop_event is documented only as an object providing is_set(). The code does not establish whether it must specifically be a threading.Event or may be another compatible stop signal.\nis_streaming_app returns the first case-insensitive substring match. Therefore dictionary insertion order determines the result when several configured strings match the same title. Confirm that this priority rule is intentional.\nstart_foreground_app_monitoring calls is_streaming_app twice whenever a streaming-title match is found. This is redundant but has been preserved to avoid changing behaviour.\nRaw foreground window titles are passed to log_fg_app_events. The current implementation does not consult SHOW_WINDOW_TITLES or apply title-cleaning or privacy rules. Confirm that retaining raw titles is acceptable for the present MVP.\nKeyboardInterrupt is caught inside the monitoring function. If this function normally runs in a worker thread, confirm whether that exception handling is expected to be effective there.",
+    "crumbs": [
+      "Foreground Tracker"
+    ]
+  }
+]
