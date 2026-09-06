@@ -7,10 +7,19 @@ Docs: https://sayanbanerjee32.github.io/snooper_pkg/main.html.md"""
 # %% auto #0
 __all__ = ['main']
 
+# %% ../nbs/09_main.ipynb #5cbfaec9
+import logging
+
 # %% ../nbs/09_main.ipynb #dd2ab1a5
 import snooper_pkg.config as cf
 from .monitoring_controller import MonitorController
 from .tray import *
+
+# %% ../nbs/09_main.ipynb #2cd2e5ea
+logging.basicConfig(
+    level=getattr(logging, cf.LOG_LEVEL.upper()),
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+)
 
 # %% ../nbs/09_main.ipynb #dc360bcd
 def main():

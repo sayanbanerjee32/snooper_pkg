@@ -7,6 +7,11 @@ Docs: https://sayanbanerjee32.github.io/snooper_pkg/process_monitor.html.md"""
 # %% auto #0
 __all__ = ['get_current_processes', 'start_process_monitoring']
 
+# %% ../nbs/04_process_monitor.ipynb #ab11b68c
+import logging
+logger = logging.getLogger(__name__)
+
+
 # %% ../nbs/04_process_monitor.ipynb #a5091893
 import psutil
 from datetime import datetime
@@ -36,10 +41,10 @@ def start_process_monitoring(session_id, stop_event, excluded_processes, time_in
             t0_procs = t1_procs
             if opened_procs:
                 for p in opened_procs: log_process_event(session_id, p[0], p[1], 'start', cur_time)
-                print(f"Opened processes: {cur_time}-{opened_procs}")
+                logger.debug(f"Opened processes: {cur_time}-{opened_procs}")
             if closed_procs:
                 for p in closed_procs: log_process_event(session_id, p[0], p[1], 'stop', cur_time)
-                print(f"Closed processes: {cur_time}-{closed_procs}")
+                logger.debug(f"Closed processes: {cur_time}-{closed_procs}")
         except KeyboardInterrupt:
             break
 

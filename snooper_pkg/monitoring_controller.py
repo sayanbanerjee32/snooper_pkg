@@ -7,6 +7,11 @@ Docs: https://sayanbanerjee32.github.io/snooper_pkg/monitoring_controller.html.m
 # %% auto #0
 __all__ = ['seconds_until_midnight', 'MonitorController']
 
+# %% ../nbs/07_monitoring_controller.ipynb #2ba18789
+import logging
+logger = logging.getLogger(__name__)
+
+
 # %% ../nbs/07_monitoring_controller.ipynb #cba105c2
 from datetime import datetime, timedelta
 import threading
@@ -61,7 +66,7 @@ def _midnight_rollover(
             self.stop_monitoring(stop_reason = "midnight_rollover")
             self.start_monitoring()
             if self.on_notify: self.on_notify("Monitoring is renewed on day break")
-            if self.debug: print("Monitoring auto-resumed after day break")
+            if self.debug: logger.debug("Monitoring auto-resumed after day break")
             if self.on_state_change: self.on_state_change()
 
 # %% ../nbs/07_monitoring_controller.ipynb #86f41142
@@ -72,7 +77,7 @@ def start_monitoring(
     "Start a new session and its process and foreground monitoring threads."
     with self.lifecycle_lock:
         if self.running:
-            if self.debug:print("Monitoring already running")
+            if self.debug:logger.debug("Monitoring already running")
             return
 
         self.running = True
@@ -99,7 +104,7 @@ def start_monitoring(
         self.rollover_timer.daemon = True
         self.rollover_timer.start()
 
-        if self.debug: print(f"Session started at {self.session_start}")
+        if self.debug: logger.debug(f"Session started at {self.session_start}")
 
 # %% ../nbs/07_monitoring_controller.ipynb #31942f63
 @patch
@@ -110,7 +115,7 @@ def stop_monitoring(
     "Stop active workers, close the session, and record its stop reason."
     with self.lifecycle_lock:
         if not self.running:
-            if self.debug:print("Monitoring is not running")
+            if self.debug:logger.debug("Monitoring is not running")
             return
 
         self.running = False
@@ -120,7 +125,7 @@ def stop_monitoring(
         try:
             for k, mt in self.monitor_threads.items():
                 mt.join(timeout=5)
-                if self.debug: print(f"Stopped monitoring for: {k}")
+                if self.debug: logger.debug(f"Stopped monitoring for: {k}")
         finally:
             end_session(self.session_id, self.session_stop, stop_reason)
             self.monitor_threads = {}
@@ -129,8 +134,8 @@ def stop_monitoring(
                 self.rollover_timer.cancel()
                 self.rollover_timer = None
 
-        if self.debug:print(f"Session stopped at {self.session_stop}")
-        if self.debug:print(f"Duration: {self.session_stop - self.session_start}")
+        if self.debug:logger.debug(f"Session stopped at {self.session_stop}")
+        if self.debug:logger.debug(f"Duration: {self.session_stop - self.session_start}")
 
 # %% ../nbs/07_monitoring_controller.ipynb #2be798db
 @patch
@@ -151,8 +156,8 @@ def run_startup_housekeeping(
     cutoff_ts = delete_old_data(now)
 
     if self.debug:
-        print(f"Closed stale sessions: {closed_sessions}")
-        print(f"Deleted data older than: {cutoff_ts}")
+        logger.debug(f"Closed stale sessions: {closed_sessions}")
+        logger.debug(f"Deleted data older than: {cutoff_ts}")
 
 # %% ../nbs/07_monitoring_controller.ipynb #ff6645d9
 @patch
@@ -196,7 +201,7 @@ def pause_for(
         self.resume_timer.start()
 
         if self.debug:
-            print(f"Monitoring paused until {self.pause_until}")
+            logger.debug(f"Monitoring paused until {self.pause_until}")
 
         return self.pause_until
 
@@ -220,7 +225,7 @@ def _auto_resume(
 
         if not self.running: self.start_monitoring()
         if self.on_notify: self.on_notify("Monitoring is starting again")
-        if self.debug: print("Monitoring auto-resumed")
+        if self.debug: logger.debug("Monitoring auto-resumed")
         if self.on_state_change: self.on_state_change()
 
 @patch

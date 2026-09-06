@@ -7,6 +7,11 @@ Docs: https://sayanbanerjee32.github.io/snooper_pkg/report_window.html.md"""
 # %% auto #0
 __all__ = ['fmt_duration', 'show_apps', 'show_summary', 'show_titles', 'update_titles', 'show_report']
 
+# %% ../nbs/06_report_window.ipynb #da97b92e
+import logging
+logger = logging.getLogger(__name__)
+
+
 # %% ../nbs/06_report_window.ipynb #310c54a7
 import tkinter as tk
 from tkinter import ttk

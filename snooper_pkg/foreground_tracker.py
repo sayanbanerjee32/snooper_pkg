@@ -7,6 +7,11 @@ Docs: https://sayanbanerjee32.github.io/snooper_pkg/foreground_tracker.html.md""
 # %% auto #0
 __all__ = ['get_foreground_window_info', 'is_streaming_app', 'start_foreground_app_monitoring']
 
+# %% ../nbs/03_foreground_tracker.ipynb #0f83e8bf
+import logging
+logger = logging.getLogger(__name__)
+
+
 # %% ../nbs/03_foreground_tracker.ipynb #3fc06c45
 import psutil
 from datetime import datetime
@@ -85,7 +90,7 @@ def start_foreground_app_monitoring(
                 fg_dict["end_time"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             sleep(time_interval)
     except KeyboardInterrupt:
-        print("Stopped by user.")
+        logger.exception("Stopped by user.")
     finally:
         if fg_dict: 
             fg_dict["end_time"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

@@ -7,6 +7,11 @@ Docs: https://sayanbanerjee32.github.io/snooper_pkg/reporter.html.md"""
 # %% auto #0
 __all__ = ['build_session_report_data']
 
+# %% ../nbs/05_reporter.ipynb #397ba495
+import logging
+logger = logging.getLogger(__name__)
+
+
 # %% ../nbs/05_reporter.ipynb #ceb36334
 import pandas as pd
 

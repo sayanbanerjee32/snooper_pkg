@@ -7,6 +7,11 @@ Docs: https://sayanbanerjee32.github.io/snooper_pkg/idle_detector.html.md"""
 # %% auto #0
 __all__ = ['LASTINPUTINFO', 'get_last_input_tick', 'get_idle_seconds']
 
+# %% ../nbs/02_idle_detector.ipynb #4cab5d99
+import logging
+logger = logging.getLogger(__name__)
+
+
 # %% ../nbs/02_idle_detector.ipynb #c6affeda
 import ctypes
 from ctypes import wintypes

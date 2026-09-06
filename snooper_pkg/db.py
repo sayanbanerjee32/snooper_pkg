@@ -9,6 +9,11 @@ __all__ = ['ProcessEvent', 'Session', 'ForegroundEvent', 'log_process_event', 'g
            'get_last_completed_session', 'close_stale_open_sessions', 'get_session_by_session_id', 'log_fg_app_events',
            'get_foreground_events', 'delete_old_data']
 
+# %% ../nbs/01_db.ipynb #f9f7bca0
+import logging
+logger = logging.getLogger(__name__)
+
+
 # %% ../nbs/01_db.ipynb #6421ef53
 from datetime import datetime, timedelta
 from fastlite import *
