@@ -25,6 +25,7 @@ dependencies = [
     "pandas",
     "psutil",
     "Pillow",
+    "platformdirs",
     "pystray; sys_platform == 'win32'",
     "pywin32; sys_platform == 'win32'",
 ]
