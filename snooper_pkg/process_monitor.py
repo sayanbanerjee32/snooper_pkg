@@ -19,7 +19,7 @@ import time
 
 # %% ../nbs/04_process_monitor.ipynb #46df5250
 import snooper_pkg.config as cf
-from .db import *
+from snooper_pkg.db import *
 
 # %% ../nbs/04_process_monitor.ipynb #bccd8472
 def get_current_processes(excluded_process_set):

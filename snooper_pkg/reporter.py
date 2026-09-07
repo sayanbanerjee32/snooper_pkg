@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 
 # %% ../nbs/05_reporter.ipynb #ceb36334
 import pandas as pd
+from datetime import datetime
 
 # %% ../nbs/05_reporter.ipynb #7896853f
 import snooper_pkg.config as cf
@@ -29,8 +30,6 @@ def build_session_report_data(session, events):
     return report_data_dict
 
 # %% ../nbs/05_reporter.ipynb #2074a73b
-from datetime import datetime
-
 def _session_data(session):
     return {'start_time': session['start_time'],
             'end_time': session['end_time'],

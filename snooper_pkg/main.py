@@ -9,24 +9,43 @@ __all__ = ['main']
 
 # %% ../nbs/09_main.ipynb #5cbfaec9
 import logging
+from platformdirs import user_log_path
+from logging.handlers import RotatingFileHandler
 
 # %% ../nbs/09_main.ipynb #dd2ab1a5
 import snooper_pkg.config as cf
-from .monitoring_controller import MonitorController
-from .tray import *
+from snooper_pkg.monitoring_controller import MonitorController
+from snooper_pkg.tray import *
+
+# %% ../nbs/09_main.ipynb #5eb27809
+LOG_DIR = user_log_path(cf.APP_NAME, appauthor=False)
+LOG_PATH = LOG_DIR / cf.LOG_FILENAME
 
 # %% ../nbs/09_main.ipynb #2cd2e5ea
-logging.basicConfig(
-    level=getattr(logging, cf.LOG_LEVEL.upper()),
-    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
-)
+def configure_logging():
+    LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    handler = RotatingFileHandler(
+        cf.LOG_PATH,
+        maxBytes=1_000_000,
+        backupCount=3,
+        encoding="utf-8",
+    )
+
+    logging.basicConfig(
+        level=getattr(logging, cf.LOG_LEVEL.upper()),
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+        handlers=[handler],
+    )
 
 # %% ../nbs/09_main.ipynb #dc360bcd
 def main():
     "Start monitoring, show the last session report, and run the tray application."
+    configure_logging()
+
     controller = MonitorController()
     controller.start_monitoring()
-    # open_last_session_report(controller)
+
     run_tray(controller, show_last_on_start=True)
 
 # %% ../nbs/09_main.ipynb #16946e18

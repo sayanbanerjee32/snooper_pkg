@@ -9,3 +9,4 @@ snooper_pkg.egg-info/
 nbdev_checks.ipynb
 migrate_notebooks.*
 debug_windows.ipynb
+package_builder.ipynb

@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 # %% ../nbs/01_db.ipynb #6421ef53
 from datetime import datetime, timedelta
 from fastlite import *
+from platformdirs import user_data_path
 
 # %% ../nbs/01_db.ipynb #e1ae96a1
 import snooper_pkg.config as cf
@@ -62,7 +63,11 @@ def _db_timestamp(value: str | datetime) -> str:
     return value.isoformat(sep=" ", timespec="seconds") if isinstance(value, datetime) else value
 
 # %% ../nbs/01_db.ipynb #fe74016d
-db = database(cf.DATABASE_PATH)
+DATA_DIR = user_data_path(cf.APP_NAME, appauthor=False)
+DATABASE_PATH = DATA_DIR / cf.DATABASE_FILENAME
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+db = database(DATABASE_PATH)
+
 
 # %% ../nbs/01_db.ipynb #b48a4b60
 process_events = db.create(

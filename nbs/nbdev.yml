@@ -4,7 +4,7 @@ project:
 website:
   title: "snooper_pkg"
   site-url: "https://sayanbanerjee32.github.io/snooper_pkg"
-  description: ""
+  description: "A transparent Windows foreground-application usage tracker"
   repo-branch: main
   repo-url: "https://github.com/sayanbanerjee32/snooper_pkg"
 

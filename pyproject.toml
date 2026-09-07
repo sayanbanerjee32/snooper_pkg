@@ -5,13 +5,17 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "snooper_pkg"
 dynamic = ["version"]
-description = ""
+description = "A transparent Windows foreground-application usage tracker"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "Apache-2.0"}
 authors = [{name = "Sayan Banerjee", email = "sayanbanerjee32@gmail.com"}]
 keywords = ['nbdev', 'snooper']
 classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Win32 (MS Windows)",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: Microsoft :: Windows",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
 ]
@@ -36,6 +40,9 @@ snooper_pkg = "snooper_pkg._modidx:d"
 dev = [
     "nbdev",
 ]
+
+[project.gui-scripts]
+snooper = "snooper_pkg.main:main"
 
 [tool.setuptools.dynamic]
 version = {attr = "snooper_pkg.__version__"}

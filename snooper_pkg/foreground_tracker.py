@@ -19,8 +19,8 @@ from time import sleep
 
 # %% ../nbs/03_foreground_tracker.ipynb #4cbec422
 import snooper_pkg.config as cf
-from .db import *
-from .idle_detector import *
+from snooper_pkg.db import *
+from snooper_pkg.idle_detector import *
 
 # %% ../nbs/03_foreground_tracker.ipynb #4939c6b1
 import sys

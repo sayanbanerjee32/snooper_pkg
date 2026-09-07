@@ -20,10 +20,10 @@ from fastcore.basics import patch
 
 # %% ../nbs/07_monitoring_controller.ipynb #97403b83
 import snooper_pkg.config as cf
-from .db import *
-from .reporter import *
-from .foreground_tracker import *
-from .process_monitor import *
+from snooper_pkg.db import *
+from snooper_pkg.reporter import *
+from snooper_pkg.foreground_tracker import *
+from snooper_pkg.process_monitor import *
 
 # %% ../nbs/07_monitoring_controller.ipynb #32497ff5
 def seconds_until_midnight(now=None):

@@ -38,11 +38,19 @@ The current notebooks implement:
 
 ## Requirements
 
-The application currently targets **Windows**. It requires Python **3.10 or later**.
+The package metadata now declares the runtime dependencies used by the implementation notebooks:
 
-`pyproject.toml` currently declares `fastlite`. The implementation notebooks also import Windows and UI/runtime packages including `pywin32`, `psutil`, `pystray`, Pillow, and Tkinter. Before distributing the package, these runtime dependencies should be added to the project metadata and verified on a real Windows installation.
+- `fastcore`
+- `fastlite`
+- `pandas`
+- `psutil`
+- `Pillow`
+- `pystray` on Windows
+- `pywin32` on Windows
 
-Native Linux and macOS support are not currently claimed.
+The package still needs to be verified from a built wheel on a clean Windows installation. That test must confirm that the dependencies install correctly, the foreground-window and idle tracking work, the system-tray application starts, and the report UI opens successfully.
+
+`tkinter` is not listed as a PyPI dependency because it is part of Python’s standard library. Its availability should instead be checked on the target Windows Python installation.
 
 ## Development installation
 

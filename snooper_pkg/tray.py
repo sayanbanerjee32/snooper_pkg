@@ -21,7 +21,7 @@ from queue import Empty, Queue
 
 # %% ../nbs/08_tray.ipynb #1744d819
 import snooper_pkg.config as cf
-from .report_window import *
+from snooper_pkg.report_window import *
 
 # %% ../nbs/08_tray.ipynb #42695dc0
 class UiDispatcher:
