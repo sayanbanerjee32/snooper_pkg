@@ -26,7 +26,7 @@ def configure_logging():
     LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
     handler = RotatingFileHandler(
-        cf.LOG_PATH,
+        LOG_PATH,
         maxBytes=1_000_000,
         backupCount=3,
         encoding="utf-8",
