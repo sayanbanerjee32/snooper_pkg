@@ -8,9 +8,12 @@ Docs: https://sayanbanerjee32.github.io/snooper_pkg/main.html.md"""
 __all__ = ['main']
 
 # %% ../nbs/09_main.ipynb #5cbfaec9
+import ctypes
 import logging
-from platformdirs import user_log_path
+import sys
+from ctypes import wintypes
 from logging.handlers import RotatingFileHandler
+from platformdirs import user_log_path
 
 # %% ../nbs/09_main.ipynb #dd2ab1a5
 import snooper_pkg.config as cf
@@ -20,6 +23,49 @@ from snooper_pkg.tray import *
 # %% ../nbs/09_main.ipynb #5eb27809
 LOG_DIR = user_log_path(cf.APP_NAME, appauthor=False)
 LOG_PATH = LOG_DIR / cf.LOG_FILENAME
+
+# %% ../nbs/09_main.ipynb #8e3d156d
+ERROR_ALREADY_EXISTS = 183
+
+_MUTEX_NAME = (
+    r"Local\SnooperPkg.SingleInstance."
+    r"7E241C35-DBF7-4E4B-89F3-3B8A278D1E8B"
+)
+
+if sys.platform == "win32":
+    _kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+
+    _kernel32.CreateMutexW.argtypes = (
+        ctypes.c_void_p,
+        wintypes.BOOL,
+        wintypes.LPCWSTR,
+    )
+    _kernel32.CreateMutexW.restype = wintypes.HANDLE
+
+    _kernel32.CloseHandle.argtypes = (wintypes.HANDLE,)
+    _kernel32.CloseHandle.restype = wintypes.BOOL
+else:
+    _kernel32 = None
+
+# %% ../nbs/09_main.ipynb #eb8637d2
+def _acquire_single_instance():
+    "Return the mutex handle and whether this is the primary instance."
+    if _kernel32 is None:
+        return None, True
+
+    ctypes.set_last_error(0)
+    handle = _kernel32.CreateMutexW(None, False, _MUTEX_NAME)
+    error = ctypes.get_last_error()
+
+    if not handle:
+        raise ctypes.WinError(error)
+
+    if error == ERROR_ALREADY_EXISTS:
+        _kernel32.CloseHandle(handle)
+        return None, False
+
+    return handle, True
+
 
 # %% ../nbs/09_main.ipynb #2cd2e5ea
 def configure_logging():
@@ -40,13 +86,23 @@ def configure_logging():
 
 # %% ../nbs/09_main.ipynb #dc360bcd
 def main():
-    "Start monitoring, show the last session report, and run the tray application."
-    configure_logging()
+    "Start Snooper unless another instance is already running."
+    mutex, is_primary = _acquire_single_instance()
 
-    controller = MonitorController()
-    controller.start_monitoring()
+    if not is_primary:
+        return
 
-    run_tray(controller, show_last_on_start=True)
+    try:
+        configure_logging()
+
+        controller = MonitorController()
+        controller.start_monitoring()
+
+        run_tray(controller, show_last_on_start=True)
+    finally:
+        if mutex is not None:
+            _kernel32.CloseHandle(mutex)
+
 
 # %% ../nbs/09_main.ipynb #16946e18
 if __name__ == "__main__":
