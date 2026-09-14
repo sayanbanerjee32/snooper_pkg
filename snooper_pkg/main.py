@@ -17,6 +17,7 @@ from platformdirs import user_log_path
 
 # %% ../nbs/09_main.ipynb #dd2ab1a5
 import snooper_pkg.config as cf
+from snooper_pkg.db import init_db
 from snooper_pkg.monitoring_controller import MonitorController
 from snooper_pkg.tray import *
 
@@ -94,7 +95,7 @@ def main():
 
     try:
         configure_logging()
-
+        init_db()
         controller = MonitorController()
         controller.start_monitoring()
 
