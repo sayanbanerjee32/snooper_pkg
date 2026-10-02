@@ -1,0 +1,8 @@
+Snooper tracks which application is in the foreground and for how long,
+to support transparent, consensual accountability during work sessions.
+
+It does not record keystrokes, screenshots, messages, or page contents.
+
+By default, Snooper starts automatically when you sign in. You can
+pause monitoring at any time from the system tray icon, and fully
+exit or uninstall whenever you choose.
