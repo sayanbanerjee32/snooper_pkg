@@ -10,3 +10,4 @@ nbdev_checks.ipynb
 migrate_notebooks.*
 debug_windows.ipynb
 package_builder.ipynb
+document_builder.ipynb

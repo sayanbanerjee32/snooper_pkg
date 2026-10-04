@@ -7,9 +7,11 @@
 
 Time away from the keyboard is treated separately from active foreground use. For example, if a browser remains open while someone is away, that interval can be reported as idle time rather than browser activity.
 
+Most people should install the Windows application below; the Python package is for development and contribution.
+
 ## Privacy boundaries
 
-This application is designed for transparent, consensual use. It is not intended to record:
+Snooper is designed to be installed by the person whose time it measures. It is not intended to record:
 
 - keystrokes
 - screenshots
@@ -18,41 +20,71 @@ This application is designed for transparent, consensual use. It is not intended
 - complete webpage contents
 - detailed personal content
 
-Window titles can themselves contain sensitive information. Title display is configurable through `SHOW_WINDOW_TITLES`; disable it when titles should not appear in reports.
+Window titles can themselves contain sensitive information. Title display is controlled by the `SHOW_WINDOW_TITLES` setting; it is fixed at build time in the installed application, but can be changed by anyone running from source.
 
-## Current MVP features
+## Installing on Windows
 
-The current notebooks implement:
+Download the latest `Snooper-Setup-*.exe` from the [GitHub Releases](https://github.com/sayanbanerjee32/snooper_pkg/releases) page and run it.
 
-- automatic monitoring startup
+- No administrator rights are required; Snooper installs per-user.
+- You can optionally select “Start Snooper automatically when I sign in” during setup.
+- Snooper starts in the system tray; there is no separate window to open.
+
+To uninstall, use “Uninstall Snooper” from the Start Menu or Windows Settings. Uninstalling removes the application but does not delete your session database (see Data storage below).
+
+## Using Snooper
+
+Right-click the tray icon to:
+
+- show the last completed session’s report
+- show stats for the current session
+- pause monitoring (for 15 minutes, 30 minutes, or a custom duration)
+- resume monitoring immediately
+- exit
+
+Pausing ends the current session; monitoring resumes automatically after the pause duration, starting a new session.
+
+## Data storage
+
+Snooper stores its database and log file under your Windows user profile, at `%LOCALAPPDATA%\Snooper`.
+
+- `snooper.db` — session, foreground-window, and process data. Entries older than the configured retention period are deleted automatically.
+- `snooper.log` — application log file.
+
+Uninstalling Snooper does not delete this folder. To remove all data, delete `%LOCALAPPDATA%\Snooper` manually after uninstalling.
+
+## Features
+
+Snooper currently provides:
+
+- automatic monitoring on startup
 - monitoring sessions stored in SQLite
 - foreground application and window interval tracking
 - Windows idle detection
 - process start and stop events
-- cleanup of old session data
-- pause and automatic resume
-- system-tray controls
+- cleanup of old session data beyond a configurable retention period
+- pause and automatic resume, from the system tray
 - session report generation
-- a table-style Tkinter report window
+- a table-style report window
+- single-instance guard (a second launch exits without opening a duplicate)
 - clean application exit
 
-## Requirements
-
-The package metadata now declares the runtime dependencies used by the implementation notebooks:
+## Requirements (running from source)
 
 - `fastcore`
 - `fastlite`
 - `pandas`
 - `psutil`
 - `Pillow`
+- `platformdirs`
 - `pystray` on Windows
 - `pywin32` on Windows
 
-The package still needs to be verified from a built wheel on a clean Windows installation. That test must confirm that the dependencies install correctly, the foreground-window and idle tracking work, the system-tray application starts, and the report UI opens successfully.
+`tkinter` is not listed as a PyPI dependency because it is part of Python’s standard library; confirm it is available in the target Python installation.
 
-`tkinter` is not listed as a PyPI dependency because it is part of Python’s standard library. Its availability should instead be checked on the target Windows Python installation.
+These are only needed when running `snooper_pkg` from source. The Windows installer bundles all dependencies and requires nothing further.
 
-## Development installation
+## Development installation (contributors)
 
 From the project root, install the package in editable mode:
 
@@ -78,8 +110,12 @@ Use the combined preparation command before committing:
 nbdev-prepare
 ```
 
-## Running the MVP
+## Running from source
 
-The application startup flow creates a [`MonitorController`](https://sayanbanerjee32.github.io/snooper_pkg/monitoring_controller.html#monitorcontroller), starts monitoring, opens the most recent completed-session report, and enters the system-tray loop. Run it only in a Windows environment after the notebook modules have been exported and the required runtime packages are installed.
+After installing in editable mode and exporting the notebooks (see above), run:
 
-The immediate project priority is a real Windows MVP test: confirm tray startup, foreground intervals, idle handling, reporting, pause/resume, and clean exit before expanding scope.
+``` bash
+python -m snooper_pkg.main
+```
+
+This creates a [\[`MonitorController`\](https://sayanbanerjee32.github.io/snooper_pkg/monitoring_controller.html#monitorcontroller)](https://sayanbanerjee32.github.io/snooper_pkg/monitoring_controller.html#monitorcontroller), starts monitoring, and enters the system-tray loop, showing the most recently completed session’s report on startup. Only one instance of Snooper can run at a time; a second launch exits immediately.
